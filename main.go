@@ -46,6 +46,7 @@ func main() {
 	// mapExample()
 	// testHigherOrderFunc()
 	// curry()
+	// pointers()
 	// testPractice()
 
 }
