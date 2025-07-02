@@ -44,7 +44,8 @@ func main() {
 	// testPractice()
 	// matrix()
 	// mapExample()
-	testHigherOrderFunc()
+	// testHigherOrderFunc()
+	// curry()
 	// testPractice()
 
 }
