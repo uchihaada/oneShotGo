@@ -47,6 +47,11 @@ func main() {
 	// testHigherOrderFunc()
 	// curry()
 	// pointers()
+	// goroutine()
+	// block()
+	// unbufferedChannelExample()
+	// bufferedChannelExample()
+	// tickerExample()
 	// testPractice()
 
 }
