@@ -52,6 +52,8 @@ func main() {
 	// unbufferedChannelExample()
 	// bufferedChannelExample()
 	// tickerExample()
+	// rwMutexExample()
+	// slicesExample()
 	// testPractice()
 
 }

@@ -1,10 +1,5 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
-
 // Synchronus Programming
 // Synchronous programming is a programming model where tasks are performed one after another, in a specific order. Each operation must finish before the next one starts. In Go (and many other languages), this means that code executes line by line, and if a function takes time to complete (like reading a file or making a network request), the program waits for it to finish before moving on
 
@@ -179,31 +174,77 @@ import (
 // ticker
 
 // tickerExample demonstrates how to use a ticker to perform an action at regular intervals.
-func tickerExample() {
-	ticker := time.NewTicker(1 * time.Second) // Create a ticker that ticks every second
-	defer ticker.Stop()                       // Always stop the ticker to release resources
+// func tickerExample() {
+// 	ticker := time.NewTicker(1 * time.Second) // Create a ticker that ticks every second
+// 	defer ticker.Stop()                       // Always stop the ticker to release resources
 
-	done := make(chan bool)
+// 	done := make(chan bool)
 
-	// Goroutine to stop the ticker after 5 ticks
-	go func() {
-		time.Sleep(5 * time.Second)
-		done <- true
-	}()
+// 	// Goroutine to stop the ticker after 5 ticks
+// 	go func() {
+// 		time.Sleep(5 * time.Second)
+// 		done <- true
+// 	}()
 
-	fmt.Println("Ticker started. It will tick every second:")
-	for {
-		select {
-		case t := <-ticker.C:
-			fmt.Println("Tick at", t)
-		case <-done:
-			fmt.Println("Ticker stopped.")
-			return
-		}
-	}
-}
-
-// Call tickerExample() in main() to see it in action
-// func main() {
-// 	tickerExample()
+// 	fmt.Println("Ticker started. It will tick every second:")
+// 	for {
+// 		select {
+// 		case t := <-ticker.C:
+// 			fmt.Println("Tick at", t)
+// 		case <-done:
+// 			fmt.Println("Ticker stopped.")
+// 			return
+// 		}
+// 	}
 // }
+
+// If you read from a nil channel, it will block forever.
+// If you write to a nil channel, it will block forever.
+// if you send to a closed channel, it will panic.
+// if you recieve from a closed channel it will return the zero value of the channel type and a boolean false.
+
+// So channel is a way to communicate between goroutines, allowing them to send and receive values. Channels can be buffered or unbuffered, and they can be closed to indicate that no more values will be sent. The select statement allows you to wait on multiple channel operations, making it easier to handle concurrent tasks.
+
+// mutex is a mutual exclusion lock that is used to protect shared data from being accessed by multiple goroutines at the same time. It ensures that only one goroutine can access the shared data at a time, preventing
+
+// mux.lock()
+// mux.unlock()
+
+// mutext refer to a mutual exclusion lock, which is used to protect shared data from being accessed by multiple goroutines at the same time. It ensures that only one goroutine can access the shared data at a time.
+
+// RWMutex is a read-write mutex that allows multiple readers to access the shared data simultaneously, but only one writer can access the shared data at a time. It is useful when you have multiple goroutines reading the shared data, but only one goroutine writing to it.
+
+// func rwMutexExample() {
+// 	var (
+// 		rwMutex sync.RWMutex
+// 		data    = 0
+// 	)
+
+// 	// Writer goroutine
+// 	go func() {
+// 		for i := 1; i <= 3; i++ {
+// 			rwMutex.Lock() // Lock for writing
+// 			data += i
+// 			fmt.Printf("Writer updated data to %d\n", data)
+// 			rwMutex.Unlock()
+// 			time.Sleep(500 * time.Millisecond)
+// 		}
+// 	}()
+
+// 	// Reader goroutines
+// 	for i := 1; i <= 2; i++ {
+// 		go func(id int) {
+// 			for j := 0; j < 3; j++ {
+// 				rwMutex.RLock() // Lock for reading
+// 				fmt.Printf("Reader %d read data: %d\n", id, data)
+// 				rwMutex.RUnlock()
+// 				time.Sleep(300 * time.Millisecond)
+// 			}
+// 		}(i)
+// 	}
+
+// 	time.Sleep(2 * time.Second)
+// }
+
+// mutex is short for mutual exclusion
+// to safely access a data concurrently
