@@ -7,6 +7,44 @@ import (
 // package level variable
 // var ada int = 15
 
+// type Person struct {
+// 	name  string
+// 	age   int
+// 	email string
+// }
+
+// func (p *Person) fmtstring() (a string) {
+// 	a = fmt.Sprintf("%s (%d) - %s", p.name, p.age, p.email)
+// 	return a
+// }
+
+// // constructor function
+// func NewPerson(name string, age int, email string) *Person {
+// 	return &Person{
+// 		name:  name,
+// 		age:   age,
+// 		email: email,
+// 	}
+// }
+
+// type Rectangle struct {
+// 	width  float64
+// 	height float64
+// }
+
+// func (r Rectangle) Area() float64 {
+// 	return r.width * r.height
+// }
+
+// func (r Rectangle) Perimeter() float64 {
+// 	return 2 * (r.width + r.height)
+// }
+
+// type ColoredRectangle struct {
+// 	Rectangle // embedded struct
+// 	color     string
+// }
+
 func main() {
 	fmt.Println("golu")
 
@@ -91,6 +129,49 @@ func main() {
 	// fmt.Println(evenSlice(arr[:]))
 	// fmt.Println(deleteByIndex(arr[:], 1))
 
+	// Create a map that stores student names as keys and their grades as values. Write functions to: add a student, get a student's grade, and check if a student exists. Also demonstrate the "comma ok" idiom when accessing map values.
+
+	// mapStudent := make(map[string]rune)
+	// var name string = "ada"
+	// var grade rune = 'a'
+	// addStudent(mapStudent, name, grade)
+	// fmt.Println(getStudent(mapStudent,name))
+
+	// Write a program that counts the frequency of words in a string. Create a map where keys are words and values are their counts. Also show how to iterate over a map and delete entries where the count is less than 2.
+
+	// var st string = "golu ada golu ada car bike bike ada golu car tree phone"
+	// a := strings.Split(st, " ")
+	// mapstr := make(map[string]int)
+
+	// for _, item := range a {
+	// 	mapstr[item]++
+	// }
+
+	// for i, x := range mapstr {
+	// 	if x < 2 {
+	// 		delete(mapstr, i)
+	// 	}
+	// }
+	// fmt.Println(mapstr)
+
+	// Create a Person struct with fields: Name (string), Age (int), and Email (string). Write a method for the struct that returns a formatted string like "John (25) - john@email.com". Also create a constructor function that returns a new Person.
+
+	// p1 := NewPerson("golu", 25, "john@email.com")
+	// fmt.Println(p1.fmtstring())
+
+	// Create a Rectangle struct with Width and Height fields. Add methods to calculate Area and Perimeter. Then create an embedded struct ColoredRectangle that embeds Rectangle and adds a Color field. Show how embedded methods work.
+
+	// rect := Rectangle{width: 5, height: 10}
+	// fmt.Println("Area of Rectangle:", rect.Area())
+	// fmt.Println("Perimeter of Rectangle:", rect.Perimeter())
+	// coloredRect := ColoredRectangle{
+	// 	Rectangle: Rectangle{width: 4, height: 8},
+	// 	color:     "red",
+	// }
+	// fmt.Println("Area of Colored Rectangle:", coloredRect.Area())
+	// fmt.Println("Perimeter of Colored Rectangle:", coloredRect.Perimeter())
+	// fmt.Println("Color of Colored Rectangle:", coloredRect.color)
+
 }
 
 // func check(a int) {
@@ -166,4 +247,17 @@ func main() {
 // 	b = append(b[:a], b[a+1:]...)
 // 	return b
 
+// }
+
+// func addStudent(a map[string]rune, b string, c rune) {
+// 	a[b] = c
+// }
+
+// func getStudent(b map[string]rune,a string) (c rune) {
+
+// 	c,ok := b[a]
+// 	if ok {
+// 		return c
+// 	}
+// 	return 0
 // }
