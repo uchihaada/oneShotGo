@@ -9,7 +9,7 @@ package main
 // // Any type that implements this method satisfies the error interface and can be used as an error.
 // // The standard library's errors.New returns a value of type error with a simple error message.
 
-// // divide divides two integers and returns an error if the denominator is zero.
+// divide divides two integers and returns an error if the denominator is zero.
 // func divide(a, b int) (int, error) {
 // 	if b == 0 {
 // 		// Return a new error if division by zero is attempted.

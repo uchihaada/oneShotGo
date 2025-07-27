@@ -45,6 +45,39 @@ import (
 // 	color     string
 // }
 
+// type Shape interface {
+// 	Area() float64
+// }
+
+// func shapeArea(s Shape) {
+// 	fmt.Println(s.Area())
+// }
+
+// type Circle struct {
+// 	r float64
+// }
+
+// func (c *Circle) Area() float64 {
+// 	return 3.14 * c.r * c.r
+// }
+
+// type Square struct {
+// 	a float64
+// }
+
+// func (s *Square) Area() float64 {
+// 	return s.a * s.a
+// }
+
+// type CustomError struct {
+// 	a   int
+// 	msg string
+// }
+
+// func (c *CustomError) Error() string {
+// 	return fmt.Sprintf("val :%d , error :%s ", c.a, c.msg)
+// }
+
 func main() {
 	fmt.Println("golu")
 
@@ -172,7 +205,133 @@ func main() {
 	// fmt.Println("Perimeter of Colored Rectangle:", coloredRect.Perimeter())
 	// fmt.Println("Color of Colored Rectangle:", coloredRect.color)
 
+	// Write a function that takes a pointer to an integer and doubles its value. Then create another function that swaps two integers using pointers. Demonstrate the difference between passing by value vs passing by pointer.
+
+	// var single int = 2
+	// double(&single)
+	// fmt.Println(single)
+	// doubleEx(single)
+	// fmt.Println(single)
+
+	// a := 1
+	// b := 2
+	// swap(&a, &b)
+	// fmt.Println(a, b)
+
+	// Create a function that returns a pointer to a newly created integer. Show how to work with nil pointers safely - write a function that takes a pointer to an integer and safely prints its value (checking for nil first).
+
+	// ptr := createInt(42)
+	// printPointer(ptr)
+
+	//  Create an interface called Shape with a method Area() float64. Then create two structs (Circle and Square) that implement this interface. Write a function that takes a Shape interface and prints its area.
+
+	// c := Circle{r: 12.4}
+	// s := Square{a: 23.3}
+	// shapeArea(&s)
+	// shapeArea(&c)
+
+	// Create an empty interface (interface{}) function that can accept any type and uses type assertion to handle different types (int, string, bool) differently. Also demonstrate type switches to handle multiple types in one function.
+
+	// assertioncall("hello")
+	// assertioncall(34)
+	// assertioncall(true)
+	// switchcall("hello")
+	// switchcall(34)
+	// switchcall(true)
+
+	// Create a function that divides two numbers and returns both the result and an error (if division by zero). Use Go's idiomatic error handling pattern. Then write code that calls this function and properly handles the error.
+
+	// val, err := divide(3.0, 0)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// } else {
+	// 	fmt.Println(val)
+	// }
+
+	//  Create a custom error type by implementing the error interface. Make a ValidationError struct that holds both an error message and a field name. Write a function that validates user input and returns this custom error when validation fails.
+
+	// val, err := divideCustomError(3.0, 0)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// } else {
+	// 	fmt.Println(val)
+	// }
+
+	// Create a goroutine that calculates the sum of numbers from 1 to 1000 and sends the result through a channel. In your main function, start the goroutine and receive the result from the channel.
+
+	// ch := make(chan int)
+
+	// go func() {
+	// 	sum := 0
+	// 	for i := 1; i <= 1000; i++ {
+	// 		sum += i
+	// 	}
+	// 	ch <- sum
+	// 	close(ch)
+	// }()
+	// res := <-ch
+	// fmt.Println(res)
+
+	// Create a program that uses multiple goroutines and channels. Launch 3 goroutines that each calculate squares of numbers (1-5, 6-10, 11-15) and send results to a shared channel. Use a buffered channel and demonstrate channel direction (send-only, receive-only parameters).
+
+	// ch := make(chan int, 15)
+	// go calculateSquare(ch, 1, 5)
+	// go calculateSquare(ch, 6, 10)
+	// go calculateSquare(ch, 11, 15)
+
+	// for i := 0; i < 15; i++ {
+	// 	fmt.Println(<-ch)
+	// }
+
 }
+
+// func calculateSquare(ch chan<- int, a, b int) {
+// 	for i := a; i <= b; i++ {
+// 		ch <- i * i
+// 		time.Sleep(1 * time.Second)
+// 	}
+// }
+
+// func divideCustomError(a, b int) (int, error) {
+// 	if b == 0 {t
+// 		return 0, &CustomError{
+// 			a:   b,
+// 			msg: "divided by zero",
+// 		}
+// 	}
+
+// 	return a / b, nil
+// }
+
+// func divide(a, b float64) (float64, error) {
+// 	if b == 0 {
+// 		return 0, errors.New("divided by zero")
+// 	} else {
+// 		return (a / b), nil
+// 	}
+// }
+
+// func assertioncall(data interface{}) {
+
+// 	if str, ok := data.(string); ok {
+// 		fmt.Println(str)
+// 	} else if intiger, ok := data.(int); ok {
+// 		fmt.Println(intiger)
+// 	} else if b, ok := data.(bool); ok {
+// 		fmt.Println(b)
+// 	}
+// }
+
+// func switchcall(data interface{}) {
+// 	switch v := data.(type) {
+// 	case int:
+// 		fmt.Println(v)
+// 	case string:
+// 		fmt.Println(v)
+// 	case bool:
+// 		fmt.Println(v)
+// 	}
+// }
 
 // func check(a int) {
 // 	if a > 0 {
@@ -260,4 +419,32 @@ func main() {
 // 		return c
 // 	}
 // 	return 0
+// }
+
+// func double(single *int) {
+// 	*single *= 2
+// }
+
+// func swap(a, b *int) {
+
+// 	temp := *a
+// 	*a = *b
+// 	*b = temp
+// }
+
+// func doubleEx(a int) {
+// 	a *= 2
+// }
+
+// func createInt(a int) *int {
+// 	var new int = a
+// 	return &new
+// }
+
+// func printPointer(a *int) {
+// 	if a == nil {
+// 		fmt.Println("Pointer is nil")
+// 		return
+// 	}
+// 	fmt.Println("Pointer value:", *a)
 // }
