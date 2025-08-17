@@ -171,23 +171,172 @@ func channel() {
 	// done above
 
 	// 11. Infinite loop with select and channel
+	msg1 := make(chan int)
 
+	go func() {
+		time.Sleep(1 * time.Second)
+		msg1 <- 1
+		time.Sleep(1 * time.Second)
+		msg1 <- 2
+		time.Sleep(1 * time.Second)
+		msg1 <- 3
+		done <- true
+	}()
+
+loop:
+	for {
+		select {
+		case m := <-msg1:
+			fmt.Println(m)
+		case <-done:
+			fmt.Println("done")
+			break loop
+		}
+	}
+
+	// 12. Use close to detect completion
+	// close already used above
+
+	// 13. Channel to square numbers
+	num1 := make(chan int)
+
+	go func() {
+		for i := 1; i <= 5; i++ {
+			num1 <- i
+		}
+		close(num1)
+	}()
+
+loop1:
+	for {
+		select {
+		case num, ok := <-num1:
+			if !ok {
+				break loop1
+			}
+			fmt.Println(num)
+		default:
+			fmt.Println("done")
+
+		}
+	}
+
+	// 14. Producer-consumer
+	// already done
+
+	// 15. Select between two channels
+	messages := make(chan string)
+	numbers := make(chan int)
+
+	go func() {
+		time.Sleep(1 * time.Second)
+		messages <- "Hello"
+		time.Sleep(2 * time.Second)
+		messages <- "World"
+		close(messages)
+	}()
+
+	// Producer 2: sends numbers
+	go func() {
+		time.Sleep(500 * time.Millisecond)
+		numbers <- 42
+		time.Sleep(1500 * time.Millisecond)
+		numbers <- 100
+		time.Sleep(1 * time.Second)
+		numbers <- 200
+		close(numbers)
+	}()
+
+	activechannel := 2
+
+	for activechannel > 0 {
+		select {
+		case msg, ok := <-messages:
+			if !ok {
+				messages = nil
+				activechannel--
+			} else {
+				fmt.Println(msg)
+			}
+		case num, ok := <-numbers:
+			if !ok {
+				numbers = nil
+			} else {
+				fmt.Println(num)
+			}
+
+		}
+	}
+
+	// 16. Timer with channel
+
+	timer := time.After(2 * time.Second)
+
+loop3:
+	for {
+		select {
+		case msg, ok := <-messages:
+			if !ok {
+				fmt.Println("All messages received!")
+				break loop3
+			}
+			fmt.Printf("Received: %s\n", msg)
+
+		case <-timer:
+			fmt.Println("Timer expired! Taking too long...")
+			// Reset timer for another 2 seconds
+			timer = time.After(2 * time.Second)
+		}
+	}
+
+	// 17. Ticker with channel
+
+	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop() // Important: stop ticker to free resources
+
+	tickCount := 0
+loop4:
+	for {
+		select {
+		case msg, ok := <-messages:
+			if !ok {
+				fmt.Println("All tasks completed!")
+				break loop4
+			}
+			fmt.Printf("✅ %s\n", msg)
+
+		case <-ticker.C:
+			tickCount++
+			fmt.Printf("Heartbeat #%d (system running...)\n", tickCount)
+		}
+	}
+
+	// 18. Buffered channel as queue
+	// done previously
+
+	// 19. Closing a channel and using ok idiom
+	// done previously
+
+	// 20. Simple pipeline
+	c1 := make(chan int)
+
+	go func() {
+		for i := 0; i < 5; i++ {
+			c1 <- i
+		}
+		close(c1)
+	}()
+
+	c2 := make(chan int)
+
+	go func() {
+		for n1 := range c1 {
+			c2 <- n1 * n1
+		}
+		close(c2)
+	}()
+
+	for result := range c2 {
+		fmt.Printf("%d\n", result)
+	}
 }
-
-// 12. Use close to detect completion
-
-// 13. Channel to square numbers
-
-// 14. Producer-consumer
-
-// 15. Select between two channels
-
-// 16. Timer with channel
-
-// 17. Ticker with channel
-
-// 18. Buffered channel as queue
-
-// 19. Closing a channel and using ok idiom
-
-// 20. Simple pipeline
