@@ -117,7 +117,7 @@ type override struct {
 }
 
 func (o *override) color() string {
-	return fmt.Sprintf("color is black")
+	return "color is black"
 }
 
 type Builder struct {
@@ -258,6 +258,8 @@ func StructsInterfaces() {
 	col(&ba)
 	ov := override{}
 	col(&ov)
+	// Use the embedded base field to avoid unused field error
+	_ = ov.base
 
 	// 14. Interface nil check
 	res := check()
