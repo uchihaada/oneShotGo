@@ -2,6 +2,7 @@ package main
 
 import (
 	"banking-ledger/database"
+	"banking-ledger/handlers"
 	"log"
 	"net/http"
 	"time"
@@ -32,6 +33,12 @@ func main() {
 	// Public routes (no authentication needed) - we'll add these later
 	// TODO: POST /api/v1/register - user registration
 	// TODO: POST /api/v1/login - user login
+
+	api := router.Group("api/auth")
+	{
+		api.POST("/register", handlers.RegisterUser)
+		api.POST("/login", handlers.LoginUser)
+	}
 
 	// Protected routes (require JWT authentication) - we'll add these later
 	// TODO: Apply JWT middleware to protected group
