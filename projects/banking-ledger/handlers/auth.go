@@ -5,6 +5,7 @@ package handlers
 import (
 	"banking-ledger/database"
 	"banking-ledger/models"
+	"banking-ledger/utils"
 	"errors"
 	"log"
 	"net/http"
@@ -117,9 +118,18 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
+	token, err := utils.GenerateToken(user.ID, req.Email)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+	}
+
 	// TODO: 4. Return success response (we'll add JWT token in Step 6)
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Login successful",
+		"token":   token,
 		"user": gin.H{
 			"id":         user.ID,
 			"email":      user.Email,

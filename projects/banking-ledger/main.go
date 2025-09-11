@@ -3,6 +3,7 @@ package main
 import (
 	"banking-ledger/database"
 	"banking-ledger/handlers"
+	"banking-ledger/middleware"
 	"log"
 	"net/http"
 	"time"
@@ -47,6 +48,12 @@ func main() {
 	// TODO: GET /api/v1/accounts/:id - get account details
 	// TODO: PUT /api/v1/accounts/:id - update account
 	// TODO: DELETE /api/v1/accounts/:id - delete account
+
+	protected := router.Group("/protected")
+	protected.Use(middleware.AuthRequired())
+	{
+		protected.GET("/health", healthCheck)
+	}
 
 	// Transaction routes - we'll add these later
 	// TODO: POST /api/v1/transactions - create transaction
