@@ -28,33 +28,28 @@ func main() {
 	// healthCheck
 	router.GET("/health", healthCheck)
 
-	// TODO: Create API v1 routes group "/api/v1"
-	// This organizes all your API routes under /api/v1/
-
-	// Public routes (no authentication needed) - we'll add these later
-	// TODO: POST /api/v1/register - user registration
-	// TODO: POST /api/v1/login - user login
-
 	api := router.Group("api/auth")
 	{
 		api.POST("/register", handlers.RegisterUser)
 		api.POST("/login", handlers.LoginUser)
 	}
 
-	// Protected routes (require JWT authentication) - we'll add these later
-	// TODO: Apply JWT middleware to protected group
-	// TODO: GET /api/v1/accounts - list user accounts
-	// TODO: POST /api/v1/accounts - create account
-	// TODO: GET /api/v1/accounts/:id - get account details
-	// TODO: PUT /api/v1/accounts/:id - update account
-	// TODO: DELETE /api/v1/accounts/:id - delete account
-
 	protected := router.Group("/protected")
+	// health check
 	protected.Use(middleware.AuthRequired())
 	{
 		protected.GET("/health", healthCheck)
 	}
-
+	//account handlers
+	accounts := router.Group("/v1")
+	protected.Use(middleware.AuthRequired())
+	{
+		accounts.GET("/accounts", handlers.GetAccounts)
+		accounts.POST("/accounts", handlers.CreateAccount)
+		accounts.GET("/accounts/:id", handlers.GetAccount)
+		accounts.PUT("/accounts/:id", handlers.UpdateAccount)
+		accounts.DELETE("/accounts/:id", handlers.DeleteAccount)
+	}
 	// Transaction routes - we'll add these later
 	// TODO: POST /api/v1/transactions - create transaction
 	// TODO: GET /api/v1/transactions - list transactions
