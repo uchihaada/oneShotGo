@@ -1,0 +1,52 @@
+{
+    "accounts": [
+        {
+            "ID": 1,
+            "CreatedAt": "2025-09-14T00:28:16.3868752+05:30",
+            "UpdatedAt": "2025-09-14T00:36:45.1959369+05:30",
+            "DeletedAt": null,
+            "UserID": 0,
+            "AccountName": "urmila",
+            "AccountType": "savings",
+            "Balance": 500000,
+            "IsActive": false,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "Email": "",
+                "Password": "",
+                "FirstName": "",
+                "LastName": "",
+                "Accounts": null
+            },
+            "SentTransactions": null,
+            "ReceivedTransactions": null
+        },
+        {
+            "ID": 2,
+            "CreatedAt": "2025-10-11T21:16:17.8768406+05:30",
+            "UpdatedAt": "2025-10-11T21:16:17.8768406+05:30",
+            "DeletedAt": null,
+            "UserID": 0,
+            "AccountName": "urmila",
+            "AccountType": "checking",
+            "Balance": 500000,
+            "IsActive": true,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "Email": "",
+                "Password": "",
+                "FirstName": "",
+                "LastName": "",
+                "Accounts": null
+            },
+            "SentTransactions": null,
+            "ReceivedTransactions": null
+        }
+    ]
+}

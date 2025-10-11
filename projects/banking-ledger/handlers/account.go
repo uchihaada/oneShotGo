@@ -40,6 +40,7 @@ func CreateAccount(c *gin.Context) {
 		AccountName: req.AccountName,
 		AccountType: models.AccountType(req.AccountType),
 		Balance:     req.InitialBalance,
+		IsActive:    true,
 	}
 
 	if err := acc.ValidateAccount(); err != nil {
@@ -58,9 +59,16 @@ func CreateAccount(c *gin.Context) {
 // GetAccounts handles GET /accounts
 func GetAccounts(c *gin.Context) {
 	userID := middleware.GetUserID(c)
-	var accounts []models.Account
 
-	if err := database.DB.Where("user_id = ?", userID).Find(&accounts).Error; err != nil {
+	var accounts []models.Account
+	result := database.DB.
+		Preload("SentTransactions").
+		Preload("ReceivedTransactions").
+		Preload("User").
+		Where("user_id = ?", userID).
+		Find(&accounts)
+
+	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch accounts"})
 		return
 	}
@@ -76,7 +84,12 @@ func GetAccount(c *gin.Context) {
 	userID := uint(middleware.GetUserID(c))
 
 	var account models.Account
-	res := database.DB.Where("id = ? AND user_id = ?", accountID, userID).First(&account)
+
+	res := database.DB.
+		Preload("SentTransactions").
+		Preload("ReceivedTransactions").
+		Preload("User").
+		Where("id = ? AND user_id = ?", accountID, userID).First(&account)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "account not found"})

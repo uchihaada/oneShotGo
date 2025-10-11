@@ -23,8 +23,6 @@ func main() {
 	// Router initialized
 	router := gin.Default()
 
-	// TODO: Add CORS middleware if needed for frontend (optional for now)
-
 	// healthCheck
 	router.GET("/health", healthCheck)
 
@@ -51,8 +49,13 @@ func main() {
 		accounts.DELETE("/accounts/:id", handlers.DeleteAccount)
 	}
 	// Transaction routes - we'll add these later
-	// TODO: POST /api/v1/transactions - create transaction
-	// TODO: GET /api/v1/transactions - list transactions
+	transactions := router.Group("/v1")
+	protected.Use(middleware.AuthRequired())
+	{
+		transactions.POST("/transactions", handlers.CreateTransaction)
+		transactions.GET("/transactions", handlers.GetTransactions)
+		transactions.GET("/transactions/:id", handlers.GetTransaction)
+	}
 
 	// Concurrency testing routes - we'll add these later
 	// TODO: POST /api/v1/accounts/bulk - bulk account creation with goroutines

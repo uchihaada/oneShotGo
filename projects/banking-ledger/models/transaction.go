@@ -38,6 +38,7 @@ type Transaction struct {
 	Type          TransactionType   `gorm:"type:varchar(20);not null"`
 	Status        TransactionStatus `gorm:"type:varchar(20);default:'pending'"`
 	Reference     string            `gorm:"unique"`
+	Description   string            `gorm:"type:text"`
 
 	// Relationships
 	FromAccount *Account `gorm:"foreignKey:FromAccountID"`
