@@ -44,6 +44,7 @@ func main() {
 	{
 		accounts.GET("/accounts", handlers.GetAccounts)
 		accounts.POST("/accounts", handlers.CreateAccount)
+		accounts.POST("/accounts/bulk", handlers.CreateAccountsBulk)
 		accounts.GET("/accounts/:id", handlers.GetAccount)
 		accounts.PUT("/accounts/:id", handlers.UpdateAccount)
 		accounts.DELETE("/accounts/:id", handlers.DeleteAccount)
@@ -58,7 +59,7 @@ func main() {
 	}
 
 	// Concurrency testing routes - we'll add these later
-	// TODO: POST /api/v1/accounts/bulk - bulk account creation with goroutines
+
 	// TODO: POST /api/v1/transactions/bulk - bulk transactions with WaitGroups
 
 	// running the server on localhost 8080

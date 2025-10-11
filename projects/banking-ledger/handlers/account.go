@@ -5,6 +5,7 @@ import (
 	"banking-ledger/database"
 	"banking-ledger/middleware"
 	"banking-ledger/models"
+	"banking-ledger/services"
 	"errors"
 	"net/http"
 	"strconv"
@@ -23,6 +24,11 @@ type CreateAccountRequest struct {
 type UpdateAccountRequest struct {
 	AccountName string `json:"account_name" binding:"required"`
 	IsActive    bool   `json:"is_active"`
+}
+
+// BulkCreateAccountsRequest for concurrent account creation
+type BulkCreateAccountsRequest struct {
+	Accounts []CreateAccountRequest `json:"accounts" binding:"required,min=1,max=100"`
 }
 
 // CreateAccount handles POST /accounts
@@ -184,5 +190,54 @@ func DeleteAccount(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "successfully deleted account",
 		"account": account,
+	})
+}
+
+// CreateAccountsBulk handles POST /accounts/bulk
+func CreateAccountsBulk(c *gin.Context) {
+	// TODO: Get user ID from JWT
+	userID := uint(middleware.GetUserID(c))
+	// TODO: Parse and bind bulk request
+	var req BulkCreateAccountsRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// TODO: Validate max 100 accounts
+	if len(req.Accounts) > 100 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "maximum 100 accounts allowed"})
+		return
+	}
+
+	// TODO: Convert CreateAccountRequest to services.AccountRequest
+	var requests []services.AccountRequest
+	for _, accReq := range req.Accounts {
+		requests = append(requests, services.AccountRequest{
+			AccountName:    accReq.AccountName,
+			AccountType:    accReq.AccountType,
+			InitialBalance: accReq.InitialBalance,
+		})
+	}
+	// TODO: Call services.CreateAccountsConcurrently()
+	results := services.CreateAccountsConcurrently(userID, requests)
+
+	// TODO: Count successes and failures
+	successCount := 0
+	failCount := 0
+	for _, res := range results {
+		if res.Success {
+			successCount++
+		} else {
+			failCount++
+		}
+	}
+
+	// TODO: Return summary with detailed results
+	c.JSON(http.StatusCreated, gin.H{
+		"message":    "Bulk account creation completed",
+		"total":      len(results),
+		"successful": successCount,
+		"failed":     failCount,
+		"results":    results,
 	})
 }
