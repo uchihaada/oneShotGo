@@ -11,5 +11,6 @@ func main() {
 	// fmt.Println(fibbonacci(10))
 	// fmt.Println(factorial(4))
 	// duplicates()
-	twosum()
+	// twosum()
+	producerconsumer()
 }
