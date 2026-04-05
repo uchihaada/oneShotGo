@@ -13,5 +13,7 @@ func main() {
 	// duplicates()
 	// twosum()
 	// producerconsumer()
-	workerpool()
+	// workerpool()
+	// counter()
+	lrucache()
 }
