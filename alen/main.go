@@ -12,5 +12,6 @@ func main() {
 	// fmt.Println(factorial(4))
 	// duplicates()
 	// twosum()
-	producerconsumer()
+	// producerconsumer()
+	workerpool()
 }
