@@ -15,5 +15,6 @@ func main() {
 	// producerconsumer()
 	// workerpool()
 	// counter()
-	lrucache()
+	// lrucache()
+	queue()
 }
